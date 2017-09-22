@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PickleData</string>
+    <string name="action_settings">Settings</string>
+    <string name="speed_display">---</string>
+    <string name="speed_label">Speed</string>
+    <string name="left_height_value">--</string>
+    <string name="left_height_label">Left</string>
+    <string name="right_height_value">--</string>
+    <string name="right_height_label">Right</string>
+    <string name="button_label">Calibrate</string>
+    <string name="CalibrateName">Calibrate</string>
+    <string name="calibrate_max_label">Calibrate Max Extension</string>
+    <string name="calibrate_normal_label">Calibrate Normal Extension</string>
+    <string name="cal_norm_con_label">Cal. Norm</string>
+    <string name="cal_max_con_label">Cal. Max</string>
+
+
+
+
+</resources>
