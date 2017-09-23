@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LandSpeedYoYos.iml" filepath="$PROJECT_DIR$/LandSpeedYoYos.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lsr-ioio.iml" filepath="$PROJECT_DIR$/lsr-ioio.iml" />
     </modules>
   </component>
 </project>
