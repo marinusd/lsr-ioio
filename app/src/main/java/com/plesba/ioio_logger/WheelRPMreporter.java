@@ -1,21 +1,17 @@
 package com.plesba.ioio_logger;
 
-public class WheelRPMreporter {
+class WheelRPMreporter {
     private WheelSensorReader reader;
     private long count, lastCount, revolutions, nowTime, lastTime, elapsedTime;
     private double seconds, rpm;
 
-    public WheelRPMreporter(WheelSensorReader sensorReader){
+    WheelRPMreporter(WheelSensorReader sensorReader){
         reader = sensorReader;
         lastCount = reader.getCount();
         lastTime = System.currentTimeMillis();
     }
 
-    public String getRevs() {
-        return Double.toString(getRPM());
-    }
-
-    public double getRPM() {
+    double getRPM() {
         nowTime = System.currentTimeMillis();
         count = reader.getCount();
 

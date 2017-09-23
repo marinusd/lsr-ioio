@@ -26,6 +26,8 @@
     <string name="front_rpm_label">FrontRPM</string>
     <string name="rearRPMvalue">-rX-</string>
     <string name="rear_rpm_label">RearRPM</string>
+    <string name="deltaRPMvalue">-dX-</string>
+    <string name="delta_rpm_label">DeltaRPM</string>
 
     <string name="lat_value">99.999999</string>
     <string name="lat_label">Latitude</string>

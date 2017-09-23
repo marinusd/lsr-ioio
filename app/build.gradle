@@ -1,19 +1,26 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword 'abcd1234'
+            storeFile file('/Users/marinus/creds/apk_cert/app_signing.jks')
+            storePassword 'abcd1234'
+        }
+    }
     compileSdkVersion 10
     buildToolsVersion "26.0.1"
-
     defaultConfig {
         applicationId "com.plesba.ioio_logger"
         minSdkVersion 10
         targetSdkVersion 10
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.config
         }
     }
 }

@@ -36,6 +36,7 @@ public class MainActivity extends IOIOActivity {
 	private TextView maxSpeedView;
 	private TextView frontRPMview;
 	private TextView rearRPMview;
+    private TextView deltaRPMview;
 	private TextView latitudeView;
 	private TextView longitudeView;
 	private FileWriter write;
@@ -48,6 +49,7 @@ public class MainActivity extends IOIOActivity {
     private String normalHeightRight = "";
     private String maxHeightLeft = "";
     private String maxHeightRight = "";
+    private String csvHeader = "SYSTIME,LH,RH,GPSTIME,LAT,LONG,DIST,SPEED,F.RPM,D.RPM,R.RPM";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class MainActivity extends IOIOActivity {
 				"android-ioio");
 		initializeGui(); // this method actually acquires the wakelock
 		// start out the Data file
-		write.data("SYSTIME,LH,RH,GPSTIME,LAT,LONG,DIST,SPEED,F.RPM,R.RPM");
+		write.data(csvHeader);
 	}
 
 	// start of stuff to bind to GPS service so we can get values
@@ -99,8 +101,10 @@ public class MainActivity extends IOIOActivity {
         private WheelSensorReader rearReader;
         private WheelRPMreporter frontRPM;
         private WheelRPMreporter  rearRPM;
+        private double frontRPMs, rearRPMs, deltaRPMs;
         private String frontRevs = "fR";
-        private String rearRevs  = "rR";
+		private String rearRevs  = "rR";
+		private String deltaRevs = "dR";
 		private String gpsTime = "";
 		private String lastGPStime = "";
 		private String latitude = "lat";
@@ -150,9 +154,13 @@ public class MainActivity extends IOIOActivity {
             // pull current height strings
 			leftReading  = height.getLeftReading();
 			rightReading = height.getRightReading();
-            // get rpms in String form
-            frontRevs = frontRPM.getRevs();
-            rearRevs = rearRPM.getRevs();
+            // get rpms as doubles, later we'll turn 'em into String form
+            frontRPMs = frontRPM.getRPM();
+            rearRPMs = rearRPM.getRPM();
+			deltaRPMs = frontRPMs - rearRPMs;
+            frontRevs = Double.toString(frontRPMs);
+            rearRevs  = Double.toString(rearRPMs);
+            deltaRevs = Double.toString(deltaRPMs);
 
             // refresh the display
             setDisplayText(clockView, updateTime);
@@ -161,7 +169,8 @@ public class MainActivity extends IOIOActivity {
             setDisplayText(leftHeightView, leftReading);
             setDisplayText(rightHeightView, rightReading);
             setDisplayText(frontRPMview, frontRevs);
-            setDisplayText(rearRPMview, rearRevs);
+            setDisplayText(deltaRPMview, deltaRevs);
+            setDisplayText(rearRPMview,  rearRevs);
 			setDisplayText(latitudeView, latitude);
 			setDisplayText(longitudeView, longitude);
 
@@ -170,10 +179,11 @@ public class MainActivity extends IOIOActivity {
 				!lastLong.equals(longitude) || 
 				!lastSpeed.equals(speed) )  {
 				// log the data
+                // "SYSTIME,LH,RH,GPSTIME,LAT,LONG,DIST,SPEED,F.RPM,D.RPM,R.RPM";
 				write.data(updateTime + "," + leftReading + "," + rightReading
 						+ "," + gpsTime + "," + latitude + "," + longitude
 						+ "," + distFromStart + "," + speed + "," + frontRevs
-                        + "," + rearRevs);
+                        + "," + deltaRevs + "," + rearRevs);
 
 			}
 
@@ -214,6 +224,7 @@ public class MainActivity extends IOIOActivity {
 		maxSpeedView = (TextView) findViewById(R.id.maxSpeedDisplay);
         frontRPMview = (TextView) findViewById(R.id.frontRpm);
         rearRPMview = (TextView) findViewById(R.id.rearRpm);
+        deltaRPMview = (TextView) findViewById(R.id.deltaRpm);
 		latitudeView = (TextView) findViewById(R.id.lat_value);
 		longitudeView = (TextView) findViewById(R.id.long_value);
 		wakeLock.acquire();
