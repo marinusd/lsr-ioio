@@ -34,6 +34,8 @@ public class MainActivity extends IOIOActivity {
 	private TextView rightHeightView;
 	private TextView speedView;
 	private TextView maxSpeedView;
+	private TextView frontRPMview;
+	private TextView rearRPMview;
 	private FileWriter write;
 	private PowerManager.WakeLock wakeLock;
 	private ServiceConnection gpsSvcConn;
@@ -61,7 +63,7 @@ public class MainActivity extends IOIOActivity {
 				"android-ioio");
 		initializeGui(); // this method actually acquires the wakelock
 		// start out the Data file
-		write.data("SYSTIME,LH,RH,GPSTIME,LAT,LONG,DIST,SPEED");
+		write.data("SYSTIME,LH,RH,GPSTIME,LAT,LONG,DIST,SPEED,F.RPM,R.RPM");
 	}
 
 	// start of stuff to bind to GPS service so we can get values
@@ -95,8 +97,8 @@ public class MainActivity extends IOIOActivity {
         private WheelSensorReader rearReader;
         private WheelRPMreporter frontRPM;
         private WheelRPMreporter  rearRPM;
-        private double frontRevs = 0d;
-        private double rearRevs  = 0d;
+        private String frontRevs = "";
+        private String rearRevs  = "";
 		private String gpsTime = "";
 		private String lastGPStime = "";
 		private String latitude = "";
@@ -147,8 +149,8 @@ public class MainActivity extends IOIOActivity {
 			leftReading  = height.getLeftReading();
 			rightReading = height.getRightReading();
             // get rpms
-            frontRevs = frontRPM.getRPM();
-            rearRevs = rearRPM.getRPM();
+            frontRevs = frontRPM.getRevs();
+            rearRevs = rearRPM.getRevs();
 
             // refresh the display
             setDisplayText(clockView, updateTime);
@@ -156,6 +158,8 @@ public class MainActivity extends IOIOActivity {
             setDisplayText(maxSpeedView, maxSpeed);
             setDisplayText(leftHeightView, leftReading);
             setDisplayText(rightHeightView, rightReading);
+            setDisplayText(frontRPMview, frontRevs);
+            setDisplayText(rearRPMview, rearRevs);
 
             // only log if we're moving
 			if (!lastLat.equals(latitude) ||
@@ -164,7 +168,8 @@ public class MainActivity extends IOIOActivity {
 				// log the data
 				write.data(updateTime + "," + leftReading + "," + rightReading
 						+ "," + gpsTime + "," + latitude + "," + longitude
-						+ "," + distFromStart + "," + speed);
+						+ "," + distFromStart + "," + speed + "," + frontRevs
+                        + "," + rearRevs);
 
 			}
 
@@ -203,6 +208,8 @@ public class MainActivity extends IOIOActivity {
 		rightHeightView = (TextView) findViewById(R.id.rightHeightDisplay);
 		speedView = (TextView) findViewById(R.id.SpeedDisplay);
 		maxSpeedView = (TextView) findViewById(R.id.maxSpeedDisplay);
+        frontRPMview = (TextView) findViewById(R.id.frontRpm);
+        rearRPMview = (TextView) findViewById(R.id.rearRpm);
 		wakeLock.acquire();
 		write.syslog("gui initialized");
 	}
@@ -291,7 +298,7 @@ public class MainActivity extends IOIOActivity {
 			write.syslog("LH NORM: " + normalHeightLeft + " LH MAX: "
 					+ maxHeightLeft + " RH NORM: " + normalHeightRight
 					+ " RH MAX: " + maxHeightRight);
-			write.data("SYSTIME,LH,RH,GPSTIME,LAT,LONG,SPEED");
+			write.data("SYSTIME,LH,RH,GPSTIME,LAT,LONG,SPEED,F.RPM,R.RPM");
 			return true;
 		case R.id.setStartPosItem:
 			gpsService.setStartingPosition();

@@ -21,18 +21,28 @@
         android:id="@+id/SpeedLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/clockView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
         android:text="@string/speed_label"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_above="@+id/SpeedDisplay"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp" />
 
     <TextView
         android:id="@+id/SpeedDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/SpeedLabel"
+        android:text="@string/speed_display"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="60sp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:text="@string/speed_display"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="60sp" />
@@ -42,10 +52,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
         android:layout_marginLeft="30dp"
         android:text="@string/left_height_label"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignTop="@+id/SpeedLabel" />
 
     <TextView
         android:id="@+id/leftHeighDisplay"
@@ -61,11 +71,11 @@
         android:id="@+id/rightHeightLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
+            android:layout_marginRight="33dp"
         android:text="@string/right_height_label"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_alignTop="@+id/SpeedLabel"
+            android:layout_alignParentRight="true" />
         
     <TextView
         android:id="@+id/rightHeightDisplay"
@@ -78,7 +88,7 @@
         android:textSize="60sp" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/maxSpeedLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -96,5 +106,45 @@
         android:layout_marginBottom="32dp"
         android:text="- -"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/frontRpm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-X-"
+        android:layout_above="@+id/SpeedLabel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/rearRpm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-X-"
+        android:layout_below="@+id/SpeedDisplay"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="42dp"
+        android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/frontRpmLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Front RPM"
+        android:layout_alignBaseline="@+id/frontRpm"
+        android:layout_alignBottom="@+id/frontRpm"
+        android:layout_alignRight="@+id/rearRpmLabel"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/rearRpmLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rear RPM"
+        android:layout_alignBaseline="@+id/rearRpm"
+        android:layout_alignBottom="@+id/rearRpm"
+        android:layout_alignLeft="@+id/leftHeighDisplay"
+        android:textSize="20sp" />
 
 </RelativeLayout>

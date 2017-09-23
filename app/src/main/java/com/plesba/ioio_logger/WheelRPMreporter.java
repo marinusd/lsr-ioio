@@ -11,6 +11,10 @@ public class WheelRPMreporter {
         lastTime = System.currentTimeMillis();
     }
 
+    public String getRevs() {
+        return Double.toString(getRPM());
+    }
+
     public double getRPM() {
         nowTime = System.currentTimeMillis();
         count = reader.getCount();
