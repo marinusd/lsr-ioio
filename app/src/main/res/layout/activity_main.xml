@@ -38,16 +38,6 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/speed_display"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="60sp" />
-
-    <TextView
         android:id="@+id/leftHeightLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -112,9 +102,10 @@
         android:layout_height="wrap_content"
         android:text="-X-"
         android:textSize="50sp"
+        android:layout_marginTop="29dp"
         android:layout_below="@+id/clockView"
-        android:layout_toLeftOf="@+id/rightHeightDisplay"
-        android:layout_marginTop="28dp" />
+        android:layout_alignRight="@+id/rightHeightLabel"
+        android:layout_marginRight="15dp" />
 
     <TextView
         android:id="@+id/rearRpm"
@@ -124,7 +115,7 @@
         android:textSize="50sp"
         android:layout_alignBaseline="@+id/rearRpmLabel"
         android:layout_alignBottom="@+id/rearRpmLabel"
-        android:layout_toLeftOf="@+id/rightHeightDisplay" />
+        android:layout_alignRight="@+id/rightHeightDisplay" />
 
     <TextView
         android:id="@+id/frontRpmLabel"

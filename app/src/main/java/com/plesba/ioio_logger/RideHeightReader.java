@@ -58,6 +58,7 @@ public class RideHeightReader extends Thread {
                 // leftSide sensor. Make sure the string is long enough to index[4]
                 tStr = Float.toString(1.0f - leftInput.read()) + "000";
                 leftReading = tStr.substring(2, 4);
+                Thread.sleep(33); // worried about voltage sagging? why does shortening one sensor change both readings?
                 // now right side sensor
                 tStr = Float.toString(1.0f - rightInput.read()) + "000";
                 rightReading = tStr.substring(2, 4);
@@ -76,7 +77,7 @@ public class RideHeightReader extends Thread {
                 ultimateRight = rightReading;
 
                 // read 'em three times a second max
-                Thread.sleep(333);
+                Thread.sleep(300);
 
             } catch (Exception e) {
                 e.printStackTrace();
