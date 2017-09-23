@@ -36,6 +36,8 @@ public class MainActivity extends IOIOActivity {
 	private TextView maxSpeedView;
 	private TextView frontRPMview;
 	private TextView rearRPMview;
+	private TextView latitudeView;
+	private TextView longitudeView;
 	private FileWriter write;
 	private PowerManager.WakeLock wakeLock;
 	private ServiceConnection gpsSvcConn;
@@ -90,27 +92,27 @@ public class MainActivity extends IOIOActivity {
 	}
 	// end of stuff to bind to GPS service
 
-	class Looper extends BaseIOIOLooper {
+	private class Looper extends BaseIOIOLooper {
         private int zeroButtonPin = 34;
 		private DigitalInput zeroButton;
         private WheelSensorReader frontReader;
         private WheelSensorReader rearReader;
         private WheelRPMreporter frontRPM;
         private WheelRPMreporter  rearRPM;
-        private String frontRevs = "";
-        private String rearRevs  = "";
+        private String frontRevs = "fR";
+        private String rearRevs  = "rR";
 		private String gpsTime = "";
 		private String lastGPStime = "";
-		private String latitude = "";
+		private String latitude = "lat";
 		private String lastLat = "";
-		private String longitude = "";
+		private String longitude = "long";
 		private String lastLong = "";
-		private String speed = "";
+		private String speed = "spd";
 		private String lastSpeed = "";
-		private String maxSpeed = "";
+		private String maxSpeed = "mx";
 		private String distFromStart = "";
-		private String leftReading = "";
-		private String rightReading = "";
+		private String leftReading = "lH";
+		private String rightReading = "rH";
 		private String updateTime = "12:00:00";
 		@SuppressLint("SimpleDateFormat")
 		private SimpleDateFormat clockFormat = new SimpleDateFormat("HH:mm:ss");
@@ -148,7 +150,7 @@ public class MainActivity extends IOIOActivity {
             // pull current height strings
 			leftReading  = height.getLeftReading();
 			rightReading = height.getRightReading();
-            // get rpms
+            // get rpms in String form
             frontRevs = frontRPM.getRevs();
             rearRevs = rearRPM.getRevs();
 
@@ -160,6 +162,8 @@ public class MainActivity extends IOIOActivity {
             setDisplayText(rightHeightView, rightReading);
             setDisplayText(frontRPMview, frontRevs);
             setDisplayText(rearRPMview, rearRevs);
+			setDisplayText(latitudeView, latitude);
+			setDisplayText(longitudeView, longitude);
 
             // only log if we're moving
 			if (!lastLat.equals(latitude) ||
@@ -190,7 +194,7 @@ public class MainActivity extends IOIOActivity {
 	}
 
 	private void initializeSettings() {
-		settings = PreferenceManager.getDefaultSharedPreferences(this);;
+		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		normalHeightLeft = settings.getString("LH_NORMAL", "0");
 		maxHeightLeft = settings.getString("LH_MAX", "99");
 		normalHeightRight = settings.getString("RH_NORMAL", "0");
@@ -210,6 +214,8 @@ public class MainActivity extends IOIOActivity {
 		maxSpeedView = (TextView) findViewById(R.id.maxSpeedDisplay);
         frontRPMview = (TextView) findViewById(R.id.frontRpm);
         rearRPMview = (TextView) findViewById(R.id.rearRpm);
+		latitudeView = (TextView) findViewById(R.id.lat_value);
+		longitudeView = (TextView) findViewById(R.id.long_value);
 		wakeLock.acquire();
 		write.syslog("gui initialized");
 	}
