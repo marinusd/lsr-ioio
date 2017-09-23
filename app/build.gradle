@@ -21,7 +21,7 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:18.0.0'
     compile 'com.github.ytai.ioio:IOIOLibAndroid:5.07'
-    //compile 'com.github.ytai.ioio:IOIOLibAndroidBluetooth:5.07'
-    //compile 'com.github.ytai.ioio:IOIOLibAndroidAccessory:5.07'
-    //compile 'com.github.ytai.ioio:IOIOLibAndroidDevice:5.07'
+    compile 'com.github.ytai.ioio:IOIOLibAndroidBluetooth:5.07'
+    compile 'com.github.ytai.ioio:IOIOLibAndroidAccessory:5.07'
+    compile 'com.github.ytai.ioio:IOIOLibAndroidDevice:5.07'
 }
