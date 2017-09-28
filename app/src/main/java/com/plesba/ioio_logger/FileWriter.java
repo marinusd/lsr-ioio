@@ -130,7 +130,7 @@ public class FileWriter {
 				this.syslogTmpStr = "";
 				this.syslogTmpCt = 0;
 
-				Log.i(TAG, "syslog succesfully written");
+				//Log.i(TAG, "syslog succesfully written");
 				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -154,7 +154,7 @@ public class FileWriter {
 				this.dataTmpStr = "";
 				this.dataTmpCt = 0;
 
-				Log.i(TAG, "data succesfully written");
+				//Log.i(TAG, "data succesfully written");
 				return true;
 
 			} catch (Exception e) {

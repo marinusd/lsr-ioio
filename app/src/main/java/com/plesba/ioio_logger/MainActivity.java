@@ -68,6 +68,7 @@ public class MainActivity extends IOIOActivity {
 		initializeGui(); // this method actually acquires the wakelock
 		// start out the Data file
 		write.data(csvHeader);
+        write.syslog("onCreate complete");
 	}
 
 	// start of stuff to bind to GPS service so we can get values
@@ -124,7 +125,7 @@ public class MainActivity extends IOIOActivity {
 		@Override
 		public void setup() throws ConnectionLostException {
 			zeroButton = ioio_.openDigitalInput(zeroButtonPin, DigitalInput.Spec.Mode.PULL_UP);
-            height = new RideHeightReader(ioio_);  height.start();
+            height = new RideHeightReader(ioio_); height.start();
             frontReader = new WheelSensorReader(ioio_, WheelSensorReader.frontInput);  frontReader.start();
             frontRPM = new WheelRPMreporter(frontReader);
             rearReader = new WheelSensorReader(ioio_, WheelSensorReader.rearInput);    rearReader.start();
@@ -135,6 +136,7 @@ public class MainActivity extends IOIOActivity {
 		@Override
 		public void loop() throws ConnectionLostException, InterruptedException {
 			updateTime = clockFormat.format(new Date());
+            setDisplayText(clockView, updateTime);
 			// imagine a pushbutton switching pin 34 to GRND.
 			if (zeroButton.read()) {
 				gpsService.setStartingPosition();
@@ -151,28 +153,29 @@ public class MainActivity extends IOIOActivity {
                     distFromStart = gpsService.getMilesFromStart();
                 }
             }
-            // pull current height strings
-			leftReading  = height.getLeftReading();
-			rightReading = height.getRightReading();
-            // get rpms as doubles, later we'll turn 'em into String form
-            frontRPMs = frontRPM.getRPM();
-            rearRPMs = rearRPM.getRPM();
-			deltaRPMs = frontRPMs - rearRPMs;
-            frontRevs = Double.toString(frontRPMs);
-            rearRevs  = Double.toString(rearRPMs);
-            deltaRevs = Double.toString(deltaRPMs);
-
-            // refresh the display
-            setDisplayText(clockView, updateTime);
             setDisplayText(speedView, speed);
             setDisplayText(maxSpeedView, maxSpeed);
+            setDisplayText(latitudeView, latitude);
+            setDisplayText(longitudeView, longitude);
+
+            // pull current height strings
+			leftReading  = height.getLeftReading();
             setDisplayText(leftHeightView, leftReading);
+			rightReading = height.getRightReading();
             setDisplayText(rightHeightView, rightReading);
+
+            // get rpms as doubles, then turn 'em into String form
+            frontRPMs = frontRPM.getRPM();
+            frontRevs = Double.toString(frontRPMs).split(".")[0];
             setDisplayText(frontRPMview, frontRevs);
-            setDisplayText(deltaRPMview, deltaRevs);
+
+            rearRPMs = rearRPM.getRPM();
+            rearRevs  = Double.toString(rearRPMs).split(".")[0];
             setDisplayText(rearRPMview,  rearRevs);
-			setDisplayText(latitudeView, latitude);
-			setDisplayText(longitudeView, longitude);
+
+			deltaRPMs = frontRPMs - rearRPMs;
+            deltaRevs = Double.toString(deltaRPMs).split(".")[0];
+            setDisplayText(deltaRPMview, deltaRevs);
 
             // only log if we're moving
 			if (!lastLat.equals(latitude) ||
@@ -193,7 +196,7 @@ public class MainActivity extends IOIOActivity {
             lastSpeed = speed;
             lastGPStime = gpsTime;
 
-			Thread.sleep(300);
+			Thread.sleep(800);
 		}
 
 	}
