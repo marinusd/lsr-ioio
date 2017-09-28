@@ -135,9 +135,9 @@ public class MainActivity extends IOIOActivity {
             height = new RideHeightReader(ioio_);
             height.start();
             frontReader = new WheelSensorReader(ioio_, WheelSensorReader.frontInput);
-            frontReader.start();
+            //frontReader.start();
             rearReader = new WheelSensorReader(ioio_, WheelSensorReader.rearInput);
-            rearReader.start();
+            //rearReader.start();
             write.syslog("Looper setup complete");
         }
 

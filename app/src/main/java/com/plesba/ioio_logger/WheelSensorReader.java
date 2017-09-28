@@ -5,18 +5,20 @@ import ioio.lib.api.DigitalInput;
 import ioio.lib.api.PulseInput;
 import ioio.lib.api.exception.ConnectionLostException;
 
-public class WheelSensorReader extends Thread {
+public class WheelSensorReader {
     public static int frontInput = 11;
     public static int rearInput  = 13;
-    private float freqHz = 0f;
+    private double rpm = 0d;
     private PulseInput pulse;
 
     double getRPM() {
-        return freqHz * 60d;
-    }
-
-    float getFreqHz() {
-        return freqHz;
+        rpm = 0d;
+        try {
+            rpm = pulse.getFrequency() * 60d;  // getFrequency() gives a float
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rpm;
     }
 
     WheelSensorReader(IOIO ioio_, int pin) {
@@ -27,18 +29,9 @@ public class WheelSensorReader extends Thread {
         FileWriter.getInstance().syslog("WheelSensorReader is being created for pin " + pin);
         try {
             pulse = ioio_.openPulseInput(pinPullUp, rate_2MHz, freq_scale_4, doublePrecision);
-        } catch (ConnectionLostException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void run() {
-        while (true) try {
-            freqHz = pulse.getFrequency();
-            Thread.sleep(345);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }
