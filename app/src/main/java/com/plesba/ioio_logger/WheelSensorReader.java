@@ -2,22 +2,31 @@ package com.plesba.ioio_logger;
 
 import ioio.lib.api.IOIO;
 import ioio.lib.api.DigitalInput;
+import ioio.lib.api.PulseInput;
 import ioio.lib.api.exception.ConnectionLostException;
 
 public class WheelSensorReader extends Thread {
     public static int frontInput = 11;
     public static int rearInput  = 13;
-    private long count = 0;
-    private DigitalInput input;
+    private float freqHz = 0f;
+    private PulseInput pulse;
 
-    public long getCount() {
-        return count;
+    double getRPM() {
+        return freqHz * 60d;
     }
 
-    public WheelSensorReader(IOIO ioio_, int pin) {
+    float getFreqHz() {
+        return freqHz;
+    }
+
+    WheelSensorReader(IOIO ioio_, int pin) {
+        DigitalInput.Spec pinPullUp = new DigitalInput.Spec(pin,DigitalInput.Spec.Mode.PULL_UP);
+        PulseInput.ClockRate rate_2MHz = PulseInput.ClockRate.RATE_2MHz;
+        PulseInput.PulseMode freq_scale_4 = PulseInput.PulseMode.FREQ_SCALE_4;
+        boolean doublePrecision = true;
         FileWriter.getInstance().syslog("WheelSensorReader is being created for pin " + pin);
         try {
-            input = ioio_.openDigitalInput(pin, DigitalInput.Spec.Mode.PULL_UP);
+            pulse = ioio_.openPulseInput(pinPullUp, rate_2MHz, freq_scale_4, doublePrecision);
         } catch (ConnectionLostException e) {
             e.printStackTrace();
         }
@@ -25,14 +34,11 @@ public class WheelSensorReader extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            try {
-                input.waitForValue(false); // low = false
-                count++;
-                input.waitForValue(true);  // high = true
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        while (true) try {
+            freqHz = pulse.getFrequency();
+            Thread.sleep(345);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
